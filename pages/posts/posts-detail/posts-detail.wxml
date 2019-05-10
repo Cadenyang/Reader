@@ -1,0 +1,21 @@
+
+<!--先静后动，先样式再数据-->
+<view class="container">
+  <image class="head-image" src="{{ postsData.headImgSrc }}"></image>
+  <image class="audio" src="/images/music/music-start.png"></image>
+  <view class="author-date">
+    <image class="avatar" src="{{ postsData.avatar }}"></image>
+    <text class="author">{{ postsData.author }}</text>
+    <text class="const-text">发表于</text>
+    <text class="date">{{ postsData.dateTime }}</text>
+  </view>
+  <text class="title">{{ postsData.title }}</text>
+  <view class="tool">
+    <view class="circle-img">
+      <image src="/images/icon/collection.png"></image>
+      <image class="share-img" src="/images/icon/share.png"></image>
+    </view>
+    <view class="horizon"></view>
+  </view>
+  <text class="detail">{{ postsData.detail }}</text>
+</view>
