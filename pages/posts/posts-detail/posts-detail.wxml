@@ -1,8 +1,8 @@
 
 <!--先静后动，先样式再数据-->
 <view class="container">
-  <image class="head-image" src="{{ postsData.headImgSrc }}"></image>
-  <image class="audio" src="/images/music/music-start.png"></image>
+  <image class="head-image" src="{{ isMusic ? postsData.music.coverImg : postsData.headImgSrc }}"></image>
+  <image class="audio" catchtap='onPlayMusic' src="{{isMusic ? '/images/music/music-stop.png' : '/images/music/music-start.png'}}"></image>
   <view class="author-date">
     <image class="avatar" src="{{ postsData.avatar }}"></image>
     <text class="author">{{ postsData.author }}</text>
@@ -12,8 +12,9 @@
   <text class="title">{{ postsData.title }}</text>
   <view class="tool">
     <view class="circle-img">
-      <image src="/images/icon/collection.png"></image>
-      <image class="share-img" src="/images/icon/share.png"></image>
+      <image wx:if = "{{ collected }}" catchtap = "onCollectTap" src="/images/icon/collection.png"></image>
+      <image wx:else catchtap = "onCollectTap"  src="/images/icon/collection-anti.png"></image>
+      <image catchtap = "onShareTap" class="share-img" src="/images/icon/share.png"></image>
     </view>
     <view class="horizon"></view>
   </view>
