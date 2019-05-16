@@ -1,4 +1,4 @@
-// pages/movies/movies.js
+var movieStar = require('../../utils/utils.js')
 var app = getApp();
 Page({
 
@@ -10,7 +10,7 @@ Page({
         comingSoon: {},
         top250: {},
     },
-    onLoad: function (options) {
+    onLoad: function(options) {
         var inTheatersUrl = app.globalData.doubanBase + "/v2/movie/in_theaters" + "?start=5&count=3"
         var comingSoonUrl = app.globalData.doubanBase + "/v2/movie/coming_soon" + "?start=0&count=3"
         var top250Url = app.globalData.doubanBase + "/v2/movie/top250" + "?start=0&count=3"
@@ -28,7 +28,6 @@ Page({
                 'Content-Type': 'json'
             },
             success(res) {
-                console.log(res)
                 that.processMovieData(res.data.subjects, settedkey, categoryTitle)
             }
         })
@@ -36,13 +35,14 @@ Page({
 
     processMovieData(moviesDouban, settedkey, categoryTitle) {
         var movies = []
-        for (var index in moviesDouban){
+        for (var index in moviesDouban) {
             var subject = moviesDouban[index]
             var title = subject.title
-            if (title.length > 6){
-                title = title.substring(0,6) + "..."
+            if (title.length > 6) {
+                title = title.substring(0, 6) + "..."
             }
             var temp = {
+                stars: movieStar.convertToStarsArray(subject.rating.stars),
                 title: title,
                 average: subject.rating.average,
                 coverageUrl: subject.images.large,
@@ -50,11 +50,12 @@ Page({
             }
             movies.push(temp)
         }
+        console.log(movies)
         var readyData = {}
         readyData[settedkey] = {
             categoryTitle: categoryTitle,
             movies: movies
         }
         this.setData(readyData)
-    } 
+    }
 })
