@@ -1,4 +1,4 @@
-var movieStar = require('../../utils/utils.js')
+var util = require('../../utils/utils.js')
 var app = getApp();
 Page({
 
@@ -42,7 +42,7 @@ Page({
                 title = title.substring(0, 6) + "..."
             }
             var temp = {
-                stars: movieStar.convertToStarsArray(subject.rating.stars),
+                stars: util.convertToStarsArray(subject.rating.stars),
                 title: title,
                 average: subject.rating.average,
                 coverageUrl: subject.images.large,
@@ -50,12 +50,18 @@ Page({
             }
             movies.push(temp)
         }
-        console.log(movies)
         var readyData = {}
         readyData[settedkey] = {
             categoryTitle: categoryTitle,
             movies: movies
         }
         this.setData(readyData)
+    },
+
+    onMoreTap(event) {
+        var category = event.currentTarget.dataset.category
+        wx.navigateTo({
+            url: 'more-movie/more-movie?category=' + category
+        })
     }
 })
