@@ -1,11 +1,6 @@
-// pages/movies/more-movie/more-movie.js
 var app = getApp();
 var util = require('../../../utils/utils.js')
 Page({
-
-    /**
-     * 页面的初始数据
-     */
     data: {
         movies: {},
         navigateTitle: '',
@@ -46,10 +41,13 @@ Page({
         wx.showNavigationBarLoading()
     },
 
+    /**
+     * 数据加载
+     */
     processMovieData(moviesDouban) {
         var movies = []
-        for (var index in moviesDouban) {
-            var subject = moviesDouban[index]
+        for (var index in moviesDouban.subjects) {
+            var subject = moviesDouban.subjects[index]
             var title = subject.title
             if (title.length > 6) {
                 title = title.substring(0, 6) + "..."
@@ -63,10 +61,12 @@ Page({
             }
             movies.push(temp)          
         }
+        // 下拉刷新加载数据
         var totalmovies = {}
         this.data.totalCount += 20
+        // 初次加载数据
         if (!this.data.isEmpty) {
-            totalmovies = this.data.movies.concat(movies)
+            totalmovies = this.data.movies.concat(movies)  // 复制数据到新的数组
         } else {
             totalmovies = movies
             this.data.isEmpty = false
@@ -75,6 +75,7 @@ Page({
             movies: totalmovies
         })
         wx.hideNavigationBarLoading()
+        wx.stopPullDownRefresh()
     },
 
     /**
@@ -83,5 +84,16 @@ Page({
     onScrollLower(event) {
         var nextUrl = this.data.requestUrl + '?start=' + this.data.totalCount + '&count=20'
         util.http(nextUrl, this.processMovieData)
+    },
+
+    /**
+     * 下拉刷新 (不会执行，是因为使用了scroll-view)
+     */
+    onPullDownRefresh(event) {
+        var refershUrl = this.data.requestUrl + '?start=0&count=20'
+        this.data.movies = {}
+        this.data.isEmpty = true
+        util.http(refershUrl, this.processMovieData)
+        wx.startPullDownRefresh()
     }
 })

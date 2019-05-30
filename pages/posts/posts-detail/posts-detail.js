@@ -70,6 +70,14 @@ Page({
             app.globalData.g_isPlayingMusic = false
             app.globalData.g_currentMusicId = null
         });
+        // 音乐播放完成，重置图标
+        wx.onBackgroundAudioStop(function () {
+            that.setData({
+                isMusic: false
+            })
+            app.globalData.g_isPlayingMusic = false
+            app.globalData.g_currentMusicId = null
+        });
     },
   
     // 收藏
