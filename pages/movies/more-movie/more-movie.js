@@ -87,7 +87,11 @@ Page({
     /**
      * 下拉加载数据
      */
-    onScrollLower(event) {
+    // onScrollLower(event) {
+    //     var nextUrl = this.data.requestUrl + '?start=' + this.data.totalCount + '&count=20'
+    //     util.http(nextUrl, this.processMovieData)
+    // },
+    onReachBottom(event) {
         var nextUrl = this.data.requestUrl + '?start=' + this.data.totalCount + '&count=20'
         util.http(nextUrl, this.processMovieData)
     },
